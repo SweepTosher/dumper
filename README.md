@@ -1,4 +1,5 @@
-ctrl F the big json "unchecked_event_array"
+ctrl F the big json "unchecked_event_array"     
+
 "select_index" is the event outcome that gets picked in the smaller json 
 
 polish tmr im going to sleep
