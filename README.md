@@ -4,4 +4,6 @@ ctrl F the big json "unchecked_event_array"
 
 polish tmr im going to sleep
 
-the safety of your account is not my problem
+the safety of your account is not my problem. this will also never be implemented into sweepy. 
+
+good luck you reckless fool
