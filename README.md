@@ -4,7 +4,8 @@ ctrl F the big json "unchecked_event_array"
 
 ok no it's mapped differently for every event but for most post race events select index of 1 means the good outcome (in the big JSON not the smaller one)
 
-polish tmr im going to sleep
+~~polish tmr im going to sleep~~
+will have to manually map the results for every event which I'm not doing
 
 the safety of your account is not my problem. this will also never be implemented into sweepy. 
 
