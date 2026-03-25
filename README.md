@@ -15,3 +15,4 @@ oh yeah this thing is busted in mant btw
 if ur willing to put in the effort to map everything out
 
 all i will say is 3/4 is bad outcome for "Solid showing choice 2" im sure you can figure the rest out yourself
+[yuh.webm](https://github.com/user-attachments/assets/76477514-8c52-4356-86cc-84e508dfc730)
