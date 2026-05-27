@@ -15,4 +15,4 @@ it's take the most extreme as the database updates itself. for example -5 energy
 
 ^^^ also means that "a hint for growth" or any other event that gives variable stats/skills is gonna display "+ every stat/skill" after a while but u should be able to understand whats going on behind the scene.
 
-<img width="1150" height="887" alt="image" src="https://github.com/user-attachments/assets/19d9270a-a255-4688-81a4-48228ffbdaa3" />
+<img width="1810" height="1080" alt="image" src="https://github.com/user-attachments/assets/c668329e-176a-4002-857c-377b7101ec18" />
