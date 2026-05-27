@@ -1,3 +1,2 @@
-frida
-frida-tools
-msgpack
+frida==17.9.1
+msgpack_python==0.5.6
