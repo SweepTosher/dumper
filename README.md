@@ -18,4 +18,4 @@ it's take the most extreme as the database updates itself. for example -5 energy
 <img width="1810" height="1080" alt="image" src="https://github.com/user-attachments/assets/c668329e-176a-4002-857c-377b7101ec18" />    
 
 
-even without being mapped idx 2 usually means bad outcome apart from race events (and some edge cases but yeah)   
+even without being mapped idx 2 usually means bad outcome apart from race and training fail events (and some edge cases but yeah)   
