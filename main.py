@@ -127,8 +127,12 @@ def format_diff(diff):
         elif k == "lost_conditions":
             parts.append(f"Lose Cond {v}")
         elif k == "gained_skill_hints":
-            hints = [f"Skill {sid}(+{lvl})" for sid, lvl in v.items()]
-            parts.append(" | ".join(hints))
+            if len(v) == 1:
+                lvl = list(v.values())[0]
+                parts.append(f"Skill hint ({lvl})")
+            else:
+                hints = [f"Skill hint {idx} ({lvl})" for idx, lvl in enumerate(v.values(), 1)]
+                parts.append(" | ".join(hints))
         elif k == "gained_items":
             parts.append(f"Gain Items {v}")
         elif k == "motivation":
@@ -169,53 +173,60 @@ def process_traffic(decoded, is_request):
                         current_event_state["pending_selected_choice_num"] = ui_slot
                         current_event_state["pending_select_index"] = current_event_state["choice_map"][ui_slot]
         else:
-            if isinstance(decoded, dict) and "data" in decoded and isinstance(decoded["data"], dict) and "unchecked_event_array" in decoded["data"]:
+            if isinstance(decoded, dict) and "data" in decoded and isinstance(decoded["data"], dict):
                 data_block = decoded["data"]
-                unchecked_arr = data_block.get("unchecked_event_array", [])
                 
-                if current_event_state["pending_select_index"] is not None and current_event_state["pending_selected_choice_num"] is not None:
-                    chara_info_after = data_block.get("chara_info")
-                    if chara_info_after and current_event_state["chara_info_before"]:
-                        diff = calculate_diff(current_event_state["chara_info_before"], chara_info_after)
-                        ev_name = current_event_state["event_name"]
-                        cnum_str = str(current_event_state["pending_selected_choice_num"])
-                        idx_str = str(current_event_state["pending_select_index"])
-                        
-                        if ev_name not in outcomes_db: outcomes_db[ev_name] = {}
-                        if cnum_str not in outcomes_db[ev_name]: outcomes_db[ev_name][cnum_str] = {}
-                        
-                        existing_diff = outcomes_db[ev_name][cnum_str].get(idx_str, {})
-                        merged_diff = merge_diffs(existing_diff, diff)
-                        
-                        outcomes_db[ev_name][cnum_str][idx_str] = merged_diff
-                        save_outcomes(outcomes_db)
+                chara_info_current = data_block.get("chara_info")
+                if chara_info_current and "vital" in chara_info_current and "max_vital" in chara_info_current:
+                    broadcast({"status": "energy_update", "vital": chara_info_current["vital"], "max_vital": chara_info_current["max_vital"]})
+                
+                if "unchecked_event_array" in data_block:
+                    unchecked_arr = data_block.get("unchecked_event_array", [])
                     
-                    current_event_state = {"event_name": None, "choice_map": {}, "chara_info_before": None, "pending_selected_choice_num": None, "pending_select_index": None}
-                    broadcast({"status": "waiting"})
+                    if current_event_state["pending_select_index"] is not None and current_event_state["pending_selected_choice_num"] is not None:
+                        chara_info_after = data_block.get("chara_info")
+                        if chara_info_after and current_event_state["chara_info_before"]:
+                            if len(current_event_state["choice_map"]) > 1:
+                                diff = calculate_diff(current_event_state["chara_info_before"], chara_info_after)
+                                ev_name = current_event_state["event_name"]
+                                cnum_str = str(current_event_state["pending_selected_choice_num"])
+                                idx_str = str(current_event_state["pending_select_index"])
+                                
+                                if ev_name not in outcomes_db: outcomes_db[ev_name] = {}
+                                if cnum_str not in outcomes_db[ev_name]: outcomes_db[ev_name][cnum_str] = {}
+                                
+                                existing_diff = outcomes_db[ev_name][cnum_str].get(idx_str, {})
+                                merged_diff = merge_diffs(existing_diff, diff)
+                                
+                                outcomes_db[ev_name][cnum_str][idx_str] = merged_diff
+                                save_outcomes(outcomes_db)
+                        
+                        current_event_state = {"event_name": None, "choice_map": {}, "chara_info_before": None, "pending_selected_choice_num": None, "pending_select_index": None}
+                        broadcast({"status": "waiting"})
 
-                if unchecked_arr and len(unchecked_arr) > 0:
-                    event_info = unchecked_arr[0]
-                    story_id = event_info.get("story_id")
-                    
-                    event_name = mdb_cache.get(story_id, f"Unknown Event {story_id}")
-                    
-                    choices = event_info.get("event_contents_info", {}).get("choice_array", [])
-                    choice_map = {i: c.get("select_index") for i, c in enumerate(choices)}
-                    current_event_state = {"event_name": event_name, "choice_map": choice_map, "chara_info_before": data_block.get("chara_info"), "pending_selected_choice_num": None, "pending_select_index": None}
-                    
-                    db_entry = outcomes_db.get(event_name, {})
-                    display_choices = []
-                    for ui_slot, select_index in choice_map.items():
-                        cnum_str = str(ui_slot)
-                        idx_str = str(select_index)
+                    if unchecked_arr and len(unchecked_arr) > 0:
+                        event_info = unchecked_arr[0]
+                        story_id = event_info.get("story_id")
                         
-                        outcome_diff = db_entry.get(cnum_str, {}).get(idx_str)
-                        if outcome_diff is not None:
-                            display_choices.append({"slot": ui_slot + 1, "index": select_index, "status": "mapped", "outcome": format_diff(outcome_diff)})
-                        else:
-                            display_choices.append({"slot": ui_slot + 1, "index": select_index, "status": "unmapped", "outcome": "Not mapped"})
-                    
-                    broadcast({"status": "event", "event_name": event_name, "choices": display_choices})
+                        event_name = mdb_cache.get(story_id, f"Unknown Event {story_id}")
+                        
+                        choices = event_info.get("event_contents_info", {}).get("choice_array", [])
+                        choice_map = {i: c.get("select_index") for i, c in enumerate(choices)}
+                        current_event_state = {"event_name": event_name, "choice_map": choice_map, "chara_info_before": data_block.get("chara_info"), "pending_selected_choice_num": None, "pending_select_index": None}
+                        
+                        db_entry = outcomes_db.get(event_name, {})
+                        display_choices = []
+                        for ui_slot, select_index in choice_map.items():
+                            cnum_str = str(ui_slot)
+                            idx_str = str(select_index)
+                            
+                            outcome_diff = db_entry.get(cnum_str, {}).get(idx_str)
+                            if outcome_diff is not None:
+                                display_choices.append({"slot": ui_slot + 1, "index": select_index, "status": "mapped", "outcome": format_diff(outcome_diff)})
+                            else:
+                                display_choices.append({"slot": ui_slot + 1, "index": select_index, "status": "unmapped", "outcome": "Not mapped"})
+                        
+                        broadcast({"status": "event", "event_name": event_name, "choices": display_choices})
 
 def onMessage(message, data):
     if message['type'] != 'send' or data is None:
@@ -327,6 +338,11 @@ class Dumpy(tk.Tk):
         self.warn_lbl = tk.Label(self, text="Order not guaranteed infer order from results", fg="#ff9800", bg="#000000", font=("Consolas", 8))
         self.warn_lbl.pack(anchor="w", padx=10, pady=(10, 0))
         
+        self.energy_var = tk.StringVar()
+        self.energy_var.set("Energy: ?/?")
+        self.energy_lbl = tk.Label(self, textvariable=self.energy_var, fg="#4caf50", bg="#000000", font=("Consolas", 10, "bold"))
+        self.energy_lbl.pack(anchor="w", padx=10, pady=0)
+        
         self.text_var = tk.StringVar()
         self.text_var.set(self.last_html)
         self.event_lbl = tk.Label(self, textvariable=self.text_var, fg="white", bg="#000000", font=("Consolas", 10), justify="left")
@@ -345,13 +361,18 @@ class Dumpy(tk.Tk):
     def poll_queue(self):
         while not ui_queue.empty():
             msg = ui_queue.get()
-            if msg["status"] == "waiting":
+            if msg["status"] == "energy_update":
+                self.energy_var.set(f"Energy: {msg['vital']}/{msg['max_vital']}")
+            elif msg["status"] == "waiting":
                 self.text_var.set(self.last_html + "\n\n[WAITING...]")
             elif msg["status"] == "event":
                 h = f"> {msg['event_name']}\n"
-                for c in msg["choices"]:
-                    out = c["outcome"] if c["status"] == "mapped" else "Not mapped"
-                    h += f"Choice {c['slot']} [Idx {c['index']}] {out}\n"
+                if len(msg.get("choices", [])) <= 1:
+                    h += "event only has 1 choice\n"
+                else:
+                    for c in msg["choices"]:
+                        out = c["outcome"] if c["status"] == "mapped" else "Not mapped"
+                        h += f"Choice {c['slot']} [Idx {c['index']}] {out}\n"
                 self.last_html = h.strip()
                 self.text_var.set(self.last_html)
         self.after(100, self.poll_queue)

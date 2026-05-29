@@ -1,38 +1,4 @@
 {
-  "A Hint for Growth": {
-    "0": {
-      "1": {
-        "wiz": 6,
-        "skill_point": 5,
-        "playing_state": -4,
-        "gained_skill_hints": {
-          "20091": 2,
-          "20038": 1,
-          "20049": 1,
-          "20016": 3,
-          "20085": 1,
-          "20050": 1,
-          "20072": 1,
-          "20150": 1,
-          "20009": 1,
-          "20033": 3,
-          "20111": 1,
-          "20014": 3
-        },
-        "stamina": 6,
-        "guts": 2
-      }
-    }
-  },
-  "A Dangerous Treat": {
-    "1": {
-      "1": {
-        "gained_skill_hints": {
-          "20035": 1
-        }
-      }
-    }
-  },
   "Leave It to the Great Detective!": {
     "0": {
       "1": {
@@ -47,40 +13,6 @@
         "gained_skill_hints": {
           "20049": 1
         }
-      }
-    }
-  },
-  "Training Level Up": {
-    "0": {
-      "1": {
-        "playing_state": -4
-      }
-    }
-  },
-  "The Knights of the Field": {
-    "0": {
-      "1": {
-        "power": 4,
-        "wiz": 4,
-        "playing_state": -4
-      }
-    }
-  },
-  "Invitation on a Stormy Day": {
-    "0": {
-      "1": {
-        "stamina": 15,
-        "gained_skill_hints": {
-          "20143": 1
-        }
-      }
-    }
-  },
-  "Good Work": {
-    "0": {
-      "2": {
-        "stamina": 4,
-        "playing_state": -4
       }
     }
   },
@@ -107,7 +39,8 @@
     "1": {
       "1": {
         "speed": 10,
-        "stamina": 10
+        "stamina": 10,
+        "power": 10
       }
     },
     "0": {
@@ -116,17 +49,10 @@
       }
     }
   },
-  "Fill Life with Love": {
-    "1": {
-      "1": {
-        "wiz": 20
-      }
-    }
-  },
   "Victory!": {
     "1": {
       "3": {
-        "stamina": 4,
+        "stamina": 16,
         "wiz": 4,
         "guts": 16,
         "vital": -25,
@@ -138,21 +64,23 @@
         "stamina": 16,
         "vital": -10,
         "skill_point": 76,
-        "wiz": 12,
+        "wiz": 19,
         "gained_skill_hints": {
           "20058": 1,
           "20018": 1
         },
-        "power": 13,
+        "power": 19,
         "guts": 21,
-        "playing_state": -4
+        "playing_state": -4,
+        "speed": 4
       },
       "2": {
         "guts": 19,
         "vital": -10,
         "skill_point": 67,
         "stamina": 16,
-        "speed": 13
+        "speed": 13,
+        "wiz": 4
       },
       "4": {
         "speed": 4,
@@ -161,7 +89,8 @@
         "vital": -25,
         "skill_point": 57,
         "playing_state": -4,
-        "stamina": 16
+        "stamina": 16,
+        "wiz": 8
       }
     },
     "0": {
@@ -175,7 +104,7 @@
         "gained_skill_hints": {
           "20026": 1
         },
-        "guts": 19,
+        "guts": 21,
         "wiz": 21
       },
       "1": {
@@ -192,6 +121,16 @@
         "playing_state": -4,
         "gained_conditions": [
           6
+        ],
+        "lost_conditions": [
+          10
+        ],
+        "stamina": -10
+      },
+      "2": {
+        "playing_state": -4,
+        "gained_conditions": [
+          10
         ]
       }
     },
@@ -199,26 +138,8 @@
       "1": {
         "stamina": -5,
         "motivation": -1,
-        "playing_state": -4
-      }
-    }
-  },
-  "Reporter's Appraisal": {
-    "0": {
-      "1": {
-        "guts": 2,
-        "speed": 5,
         "playing_state": -4,
-        "power": 2,
-        "wiz": 5,
-        "stamina": 2
-      }
-    }
-  },
-  "When Piety and Kindness Intersect": {
-    "1": {
-      "1": {
-        "vital": 20
+        "guts": -5
       }
     }
   },
@@ -239,124 +160,14 @@
           10
         ]
       }
-    }
-  },
-  "Unexpected Side": {
-    "0": {
-      "2": {
-        "gained_skill_hints": {
-          "20027": 5
-        }
-      }
-    }
-  },
-  "An Early, Bakushin Lesson!": {
+    },
     "0": {
       "1": {
-        "speed": 4,
-        "guts": 4,
+        "speed": -20,
+        "stamina": -10,
+        "vital": 10,
+        "motivation": -3,
         "playing_state": -4
-      }
-    }
-  },
-  "Take Off toward Trendy ♪": {
-    "0": {
-      "1": {
-        "stamina": 10,
-        "skill_point": 15,
-        "gained_skill_hints": {
-          "20043": 1
-        }
-      }
-    }
-  },
-  "Report: Potential of Specialized Training": {
-    "0": {
-      "1": {
-        "wiz": 5,
-        "skill_point": 15
-      }
-    }
-  },
-  "Cooking Up a Plate of Happiness": {
-    "0": {
-      "1": {
-        "stamina": 12,
-        "playing_state": -4
-      }
-    }
-  },
-  "Housework Is Tough!": {
-    "0": {
-      "1": {
-        "vital": -6
-      }
-    }
-  },
-  "Solo Nighttime Run": {
-    "1": {
-      "1": {
-        "stamina": 5,
-        "vital": 10
-      }
-    }
-  },
-  "The Inescapable Ardan": {
-    "1": {
-      "2": {
-        "playing_state": -4,
-        "gained_skill_hints": {
-          "20124": 1
-        }
-      }
-    }
-  },
-  "Master Trainer": {
-    "0": {
-      "2": {
-        "stamina": 10,
-        "gained_conditions": [
-          10
-        ],
-        "lost_conditions": [
-          6
-        ]
-      },
-      "1": {
-        "wiz": 10,
-        "power": 10
-      }
-    }
-  },
-  "The Extraordinary Nature": {
-    "0": {
-      "1": {
-        "wiz": 5,
-        "guts": 5,
-        "motivation": 1
-      }
-    }
-  },
-  "Self-Introduction": {
-    "0": {
-      "1": {
-        "skill_point": 120
-      }
-    }
-  },
-  "The Climax Begins!": {
-    "0": {
-      "1": {
-        "playing_state": -4
-      }
-    }
-  },
-  "Lovely Training Weather ♪": {
-    "2": {
-      "1": {
-        "gained_conditions": [
-          10
-        ]
       }
     }
   },
@@ -366,13 +177,10 @@
         "vital": -5,
         "skill_point": 30
       }
-    }
-  },
-  "Director's Appraisal": {
+    },
     "0": {
       "1": {
-        "skill_point": 5,
-        "playing_state": -4
+        "speed": 10
       }
     }
   },
@@ -382,627 +190,11 @@
         "speed": 3,
         "motivation": 1
       }
-    }
-  },
-  "I Wanna Join the Discussion!": {
-    "0": {
-      "1": {
-        "stamina": 6,
-        "guts": 6,
-        "playing_state": -4
-      }
-    }
-  },
-  "It'll All Turn Out Fine": {
-    "0": {
-      "1": {
-        "speed": 10,
-        "wiz": 10,
-        "max_vital": 4
-      }
-    }
-  },
-  "All Refreshed": {
-    "0": {
-      "1": {
-        "vital": 50,
-        "playing_state": -4
-      }
-    }
-  },
-  "C'mon Gates, Open Already!": {
-    "0": {
-      "2": {
-        "speed": 5,
-        "skill_point": 10
-      }
-    }
-  },
-  "Hamburger Helper!": {
+    },
     "1": {
-      "1": {
-        "vital": 30,
-        "skill_point": 10
-      }
-    }
-  },
-  "AC Break Down": {
-    "0": {
-      "1": {
-        "guts": 12,
-        "playing_state": -4
-      }
-    }
-  },
-  "The Pressure of Justice?": {
-    "1": {
-      "1": {
-        "gained_skill_hints": {
-          "20033": 1
-        }
-      }
-    }
-  },
-  "A Fast but Long Day at the Idol Fest": {
-    "0": {
-      "1": {
-        "stamina": 12,
-        "playing_state": -4
-      }
-    }
-  },
-  "Expression of Conviction": {
-    "0": {
-      "1": {
-        "stamina": 20
-      }
-    }
-  },
-  "Not Our Forte": {
-    "0": {
-      "1": {
-        "wiz": 8,
-        "playing_state": -4
-      }
-    }
-  },
-  "Well-Rested!": {
-    "0": {
-      "1": {
-        "vital": 70,
-        "playing_state": -4
-      }
-    }
-  },
-  "Invitation on a Rainy Day": {
-    "0": {
-      "1": {
-        "vital": 15,
-        "skill_point": 15
-      }
-    }
-  },
-  "Top Makeup Picks!": {
-    "0": {
-      "1": {
-        "wiz": 8,
-        "playing_state": -4
-      }
-    }
-  },
-  "One Step toward Blooming!": {
-    "0": {
-      "1": {
-        "skill_point": 15,
-        "gained_skill_hints": {
-          "20056": 1
-        }
-      }
-    }
-  },
-  "Still Taxiing?": {
-    "0": {
-      "1": {
-        "skill_point": 30
-      }
-    }
-  },
-  "Etsuko's Elated Coverage": {
-    "0": {
-      "1": {
-        "wiz": 19,
-        "vital": -20,
-        "motivation": 1,
-        "fans": 500,
-        "skill_point": 67,
-        "guts": 12,
-        "speed": 12
-      },
-      "2": {
-        "stamina": 16,
-        "vital": -20,
-        "fans": 500,
-        "skill_point": 76,
-        "speed": 16,
-        "wiz": 21,
-        "motivation": 1,
-        "gained_skill_hints": {
-          "20001": 1
-        },
-        "guts": 21,
-        "power": 16,
-        "playing_state": -4
-      }
-    }
-  },
-  "Rival Bested!": {
-    "0": {
-      "2": {
-        "stamina": 5,
-        "guts": 5,
-        "playing_state": -4,
-        "power": 5,
-        "speed": 5,
-        "wiz": 5
-      },
-      "1": {
-        "playing_state": -4,
-        "gained_skill_hints": {
-          "20114": 1,
-          "20136": 1,
-          "20056": 1,
-          "20209": 1,
-          "20076": 1,
-          "20057": 1,
-          "20133": 1,
-          "20137": 1,
-          "20058": 1,
-          "20111": 1,
-          "20072": 1,
-          "20112": 1,
-          "20103": 1,
-          "20127": 1,
-          "20053": 1,
-          "20130": 1,
-          "20129": 1,
-          "20075": 1,
-          "20210": 1,
-          "20070": 1,
-          "20055": 1,
-          "20124": 1
-        }
-      }
-    }
-  },
-  "A Trainer's Equal?": {
-    "0": {
-      "1": {
-        "speed": 5,
-        "stamina": 5,
-        "power": 5,
-        "wiz": 5,
-        "guts": 5,
-        "skill_point": 30
-      }
-    }
-  },
-  "Best Junior Year Umamusume!": {
-    "0": {
-      "1": {
-        "wiz": 10,
-        "skill_point": 20,
-        "playing_state": -4
-      }
-    }
-  },
-  "At Tachyon's Pace": {
-    "1": {
-      "1": {
-        "speed": 5,
-        "power": 5
-      }
-    }
-  },
-  "Boredom is Excruciating": {
-    "0": {
-      "1": {
-        "guts": -5,
-        "motivation": -1
-      }
-    }
-  },
-  "Sleep Deprived": {
-    "0": {
-      "1": {
-        "vital": 30,
-        "playing_state": -4
-      }
-    }
-  },
-  "Chocolates for Someone Special": {
-    "0": {
-      "1": {
-        "power": 10,
-        "motivation": 1
-      }
-    }
-  },
-  "Your Starry Sky": {
-    "0": {
-      "1": {
-        "wiz": 6,
-        "guts": 6,
-        "playing_state": -4
-      }
-    }
-  },
-  "Target Successfully Captured! ☆": {
-    "0": {
-      "1": {
-        "stamina": 10,
-        "vital": 20
-      }
-    }
-  },
-  "Achievement! Outstanding Contribution!": {
-    "0": {
-      "1": {
-        "speed": 5,
-        "power": 5,
-        "playing_state": -4,
-        "guts": 5,
-        "stamina": 5,
-        "wiz": 5
-      }
-    }
-  },
-  "Lovely Concert Weather ♪": {
-    "0": {
       "1": {
         "vital": 10,
-        "skill_point": 10
-      }
-    }
-  },
-  "Magic x Science = ?": {
-    "0": {
-      "1": {
-        "playing_state": -4
-      }
-    }
-  },
-  "Reminiscent Clover": {
-    "0": {
-      "1": {
-        "gained_skill_hints": {
-          "20033": 1
-        }
-      }
-    }
-  },
-  "Childhood Cookies": {
-    "0": {
-      "1": {
-        "vital": 20,
-        "playing_state": -4
-      }
-    }
-  },
-  "Ready for a Challenge": {
-    "0": {
-      "1": {
-        "guts": 5,
-        "power": 5,
-        "stamina": 5,
-        "wiz": 5,
-        "speed": 5
-      }
-    }
-  },
-  "Chomp Attack!": {
-    "0": {
-      "1": {
-        "skill_point": 15
-      }
-    }
-  },
-  "A Summer Night Scare ★": {
-    "0": {
-      "1": {
-        "guts": 12,
-        "playing_state": -4
-      }
-    }
-  },
-  "Achievement! Unparalleled Progress!": {
-    "0": {
-      "1": {
-        "wiz": 15,
-        "guts": 15,
-        "playing_state": -4,
-        "speed": 15,
-        "power": 15,
-        "stamina": 15
-      }
-    }
-  },
-  "Race Fatigue": {
-    "0": {
-      "1": {
-        "motivation": -1,
-        "playing_state": -4
-      }
-    }
-  },
-  "Miracle Spice?": {
-    "0": {
-      "1": {
-        "guts": 10,
-        "motivation": 1
-      }
-    }
-  },
-  "After Repeated Races...": {
-    "0": {
-      "2": {
-        "speed": -10,
-        "stamina": -10,
-        "guts": -10,
-        "motivation": -1,
-        "playing_state": -4,
-        "gained_conditions": [
-          3
-        ],
-        "wiz": -10,
-        "power": -10
-      },
-      "1": {
-        "speed": -10,
-        "stamina": -10,
-        "guts": -10,
-        "motivation": -1
-      }
-    }
-  },
-  "The Strongest Collaborator?!": {
-    "1": {
-      "1": {
-        "wiz": 5,
-        "vital": 5
-      }
-    }
-  },
-  "We Return Together": {
-    "0": {
-      "1": {
-        "speed": 12,
-        "playing_state": -4
-      }
-    }
-  },
-  "Snack Advice for Mayano!": {
-    "1": {
-      "1": {
-        "stamina": 10
-      }
-    }
-  },
-  "Unsavory Rumors?": {
-    "0": {
-      "1": {
-        "speed": 6,
-        "stamina": 6,
-        "power": 6,
-        "wiz": 6,
-        "guts": 6,
-        "skill_point": 40
-      }
-    }
-  },
-  "Best Classic Year Umamusume!": {
-    "0": {
-      "1": {
-        "speed": 5,
-        "stamina": 5,
-        "power": 5,
-        "wiz": 5,
-        "guts": 5,
-        "skill_point": 30,
-        "playing_state": -4,
-        "gained_skill_hints": {
-          "21006": 1
-        }
-      }
-    }
-  },
-  "Ikuno Tour Getaway": {
-    "0": {
-      "1": {
-        "stamina": 8,
-        "power": 4,
-        "playing_state": -4
-      }
-    }
-  },
-  "Those with the Name of Symboli": {
-    "1": {
-      "1": {
-        "skill_point": 30,
-        "gained_skill_hints": {
-          "20166": 1
-        }
-      }
-    }
-  },
-  "Falco's Special Blend, Made with Love ☆": {
-    "0": {
-      "1": {
-        "skill_point": 12,
-        "playing_state": -4
-      }
-    }
-  },
-  "Coffee Trap?": {
-    "0": {
-      "1": {
-        "motivation": -1
-      }
-    }
-  },
-  "Wonderful New Shoes": {
-    "1": {
-      "1": {
-        "stamina": 5,
-        "vital": -10,
-        "skill_point": 20
-      }
-    }
-  },
-  "Fortune Favors the Friends!": {
-    "0": {
-      "1": {
-        "speed": 7,
-        "stamina": 7,
-        "power": 7,
-        "wiz": 7,
-        "guts": 7
-      }
-    }
-  },
-  "Finding Miraculous Joy!": {
-    "0": {
-      "1": {
-        "speed": 7,
-        "stamina": 7,
-        "power": 7,
-        "wiz": 7,
-        "guts": 7,
-        "skill_point": 77,
-        "gained_skill_hints": {
-          "20156": 3
-        }
-      }
-    }
-  },
-  "A Heartfelt Request": {
-    "0": {
-      "1": {
-        "stamina": 10,
-        "vital": 20
-      }
-    }
-  },
-  "Grilling Up a Storm!": {
-    "0": {
-      "1": {
-        "stamina": 12,
-        "playing_state": -4
-      }
-    }
-  },
-  "Peak Halloween!": {
-    "0": {
-      "1": {
-        "speed": 10
-      }
-    }
-  },
-  "Run Away to First Base": {
-    "0": {
-      "1": {
-        "stamina": 15,
-        "guts": 10,
-        "vital": -5,
-        "gained_skill_hints": {
-          "20124": 1
-        }
-      }
-    }
-  },
-  "Flow with the Festival": {
-    "0": {
-      "1": {
-        "stamina": 6,
-        "wiz": 6,
-        "playing_state": -4
-      }
-    }
-  },
-  "Tachyon the Spoiled Child": {
-    "0": {
-      "1": {
-        "stamina": 10,
-        "guts": 10
-      }
-    }
-  },
-  "The Best Holiday Ever!": {
-    "0": {
-      "1": {
-        "power": 10,
-        "vital": 30
-      }
-    }
-  },
-  "The Greatest for Whom?": {
-    "0": {
-      "1": {
-        "speed": 7,
-        "stamina": 7,
-        "power": 7,
-        "wiz": 7,
-        "guts": 7,
-        "skill_point": 50
-      }
-    }
-  },
-  "The Joy of Being Together": {
-    "1": {
-      "1": {
-        "wiz": 10,
-        "gained_conditions": [
-          10
-        ]
-      }
-    }
-  },
-  "Ah, Friendship": {
-    "0": {
-      "1": {
-        "power": 5,
-        "motivation": 1
-      }
-    }
-  },
-  "Lonesome Cepheus": {
-    "1": {
-      "1": {
-        "wiz": 10
-      }
-    }
-  },
-  "Toward the Brightest Star": {
-    "0": {
-      "1": {
-        "guts": 10,
-        "gained_skill_hints": {
-          "20155": 2
-        }
-      }
-    }
-  },
-  "Some Much-Needed Alone Time": {
-    "0": {
-      "1": {
-        "skill_point": 20,
-        "playing_state": -4
-      }
-    }
-  },
-  "Smiles Are Contagious": {
-    "0": {
-      "1": {
-        "stamina": 20
+        "skill_point": 5
       }
     }
   },
@@ -1010,151 +202,14 @@
     "0": {
       "1": {
         "speed": 5,
-        "vital": -5
+        "vital": -5,
+        "wiz": 5
       }
     },
     "1": {
       "1": {
         "vital": 5,
         "playing_state": -4
-      }
-    }
-  },
-  "My Armor, My Staff, and My Cleats": {
-    "0": {
-      "1": {
-        "speed": 8,
-        "playing_state": -4
-      }
-    }
-  },
-  "Anything for My Classmates": {
-    "0": {
-      "1": {
-        "speed": 7,
-        "stamina": 7,
-        "wiz": 7,
-        "vital": -10,
-        "gained_skill_hints": {
-          "20153": 1
-        }
-      }
-    }
-  },
-  "Who to Count On": {
-    "1": {
-      "1": {
-        "power": 20
-      }
-    }
-  },
-  "Great Expectations": {
-    "1": {
-      "1": {
-        "vital": 20,
-        "skill_point": 10
-      }
-    }
-  },
-  "Trail of Light": {
-    "1": {
-      "1": {
-        "power": 20
-      }
-    }
-  },
-  "Report: N/A (On Break)": {
-    "0": {
-      "1": {
-        "wiz": 10,
-        "skill_point": 15,
-        "gained_skill_hints": {
-          "20083": 1
-        }
-      }
-    }
-  },
-  "Chasing Brilliance": {
-    "0": {
-      "1": {
-        "speed": 2,
-        "power": 2,
-        "wiz": 2
-      }
-    }
-  },
-  "Academic Glow Up!": {
-    "0": {
-      "1": {
-        "wiz": 12,
-        "playing_state": -4
-      }
-    }
-  },
-  "The Solefall Faire Conundrum": {
-    "0": {
-      "1": {
-        "power": 6,
-        "skill_point": 20,
-        "playing_state": -4
-      }
-    }
-  },
-  "Rivals Know Best": {
-    "0": {
-      "1": {
-        "speed": 15,
-        "stamina": 15,
-        "vital": -10,
-        "skill_point": 20,
-        "gained_skill_hints": {
-          "20015": 1
-        }
-      }
-    }
-  },
-  "The Marvelous Colors of Fall ☆": {
-    "0": {
-      "1": {
-        "guts": 12,
-        "playing_state": -4
-      }
-    }
-  },
-  "Operation: Excursion Trouble": {
-    "0": {
-      "1": {
-        "stamina": 10,
-        "skill_point": 15
-      }
-    }
-  },
-  "Irrepressible Feelings": {
-    "0": {
-      "1": {
-        "vital": 10
-      }
-    }
-  },
-  "Revenge with a Quiz!": {
-    "0": {
-      "1": {
-        "speed": 5,
-        "wiz": 5,
-        "vital": 10,
-        "gained_skill_hints": {
-          "20060": 1
-        }
-      }
-    }
-  },
-  "The Strongest, Mightiest Cinderella!": {
-    "1": {
-      "2": {
-        "playing_state": -4,
-        "gained_skill_hints": {
-          "20045": 1
-        }
       }
     }
   },
@@ -1166,141 +221,40 @@
           "20036": 1
         }
       }
-    }
-  },
-  "We Walk Together": {
-    "0": {
-      "2": {
-        "speed": 5,
-        "power": 5
-      }
-    }
-  },
-  "Happy Valentine's Day! ♪": {
+    },
     "0": {
       "1": {
-        "wiz": 10
-      }
-    }
-  },
-  "Since It's White Day": {
-    "0": {
-      "1": {
-        "guts": 10,
-        "vital": 20
-      }
-    }
-  },
-  "Awkward Triangulum": {
-    "1": {
-      "1": {
-        "vital": 10
-      }
-    }
-  },
-  "Greetings to the Upperclassmen!": {
-    "0": {
-      "1": {
-        "wiz": 6,
-        "guts": 6,
-        "playing_state": -4
-      }
-    }
-  },
-  "Operation: Extra Classes": {
-    "0": {
-      "1": {
-        "vital": 10
-      }
-    }
-  },
-  "It's Bourbon, Not Barbin": {
-    "0": {
-      "1": {
-        "vital": -9,
-        "motivation": -1
-      }
-    }
-  },
-  "Skin Troubles": {
-    "0": {
-      "1": {
-        "motivation": -1
-      }
-    }
-  },
-  "The Great Detective and Her Assistant": {
-    "0": {
-      "1": {
-        "power": 4,
-        "wiz": 4,
-        "playing_state": -4
-      }
-    }
-  },
-  "Cheerful Shopping": {
-    "0": {
-      "1": {
-        "guts": -5,
-        "vital": 15,
-        "motivation": -1
-      }
-    }
-  },
-  "Sporty Umamusume Day!": {
-    "0": {
-      "1": {
-        "power": 10,
+        "vital": 10,
         "motivation": 1
       }
     }
   },
-  "Justice Biko, Reporting for Duty!": {
+  "Ah, Home Sweet Home": {
+    "1": {
+      "1": {
+        "gained_conditions": [
+          10
+        ]
+      }
+    },
     "0": {
       "1": {
-        "speed": 4,
-        "power": 4,
-        "playing_state": -4
+        "speed": 5,
+        "power": 10
       }
     }
   },
-  "The Perfect Dessert": {
+  "The Emperor's Satiation": {
+    "0": {
+      "1": {
+        "vital": 10,
+        "skill_point": 5
+      }
+    },
     "1": {
       "1": {
         "vital": 30,
         "skill_point": 10
-      }
-    }
-  },
-  "Find the Mystery Gamer!": {
-    "0": {
-      "1": {
-        "wiz": 4,
-        "guts": 4,
-        "playing_state": -4
-      }
-    }
-  },
-  "Unforeseen Lunch": {
-    "0": {
-      "1": {
-        "vital": 15
-      }
-    }
-  },
-  "A Diligent Effort": {
-    "1": {
-      "1": {
-        "gained_skill_hints": {
-          "20072": 1
-        }
-      }
-    }
-  },
-  "Operation: Execute Orders": {
-    "1": {
-      "1": {
-        "power": 10
       }
     }
   },
@@ -1311,109 +265,55 @@
       }
     }
   },
-  "May I Have This Dance?": {
+  "A Trip to the Victory Club!": {
     "0": {
       "1": {
-        "power": 12,
+        "stamina": 6,
+        "wiz": 6,
         "playing_state": -4
       }
     }
   },
-  "A Moment Beneath the Cherry Blossoms": {
-    "0": {
-      "1": {
-        "stamina": 12,
-        "playing_state": -4
-      }
-    }
-  },
-  "The Correlation between Sleep and\\nEfficiency": {
-    "0": {
-      "1": {
-        "power": 5,
-        "wiz": 5
-      }
-    }
-  },
-  "Solid Showing": {
+  "Thinking Freely": {
     "0": {
       "2": {
-        "speed": 12,
-        "vital": -25,
-        "skill_point": 76,
-        "playing_state": -4
+        "vital": 15
       }
     }
   },
-  "Fan Letter": {
+  "Even if I Ruffle Feathers": {
     "0": {
       "1": {
-        "skill_point": 30
+        "wiz": 15
       }
     }
   },
-  "What's Wrong with Golshi?!": {
+  "Late-Night Fanservice Training": {
     "0": {
       "1": {
-        "speed": 6,
-        "power": 6,
-        "playing_state": -4
+        "guts": 20
       }
     }
   },
-  "There's Always Ice Cream": {
-    "0": {
+  "Queen of the Island": {
+    "1": {
       "1": {
-        "wiz": 12,
-        "playing_state": -4
+        "stamina": 10
       }
     }
   },
-  "When There's Sudden Rain": {
+  "Not like Meow": {
     "0": {
       "1": {
-        "speed": 10,
         "vital": 20
       }
     }
   },
-  "A Big Bag Means Big Effort": {
-    "0": {
-      "1": {
-        "skill_point": 20,
-        "playing_state": -4
-      }
-    }
-  },
-  "Operation: Change of Pace": {
-    "0": {
-      "2": {
-        "speed": 5,
-        "stamina": 5,
-        "power": 5,
-        "wiz": 5,
-        "guts": 5,
-        "skill_point": 30,
-        "gained_conditions": [
-          7
-        ]
-      }
-    }
-  },
-  "Trick, No Treat!": {
-    "0": {
-      "1": {
-        "wiz": 10
-      }
-    }
-  },
-  "A Family (?) Shopping Trip!": {
+  "Uma Kids Footrace Meet": {
     "1": {
-      "2": {
-        "playing_state": -4,
-        "gained_skill_hints": {
-          "20074": 1
-        }
+      "1": {
+        "speed": 5,
+        "max_vital": 4
       }
     }
   }
