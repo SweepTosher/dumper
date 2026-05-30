@@ -14,6 +14,27 @@ MDB_PATH = os.path.expanduser('~/AppData/LocalLow/Cygames/Umamusume/master/maste
 
 IGNORE_KEYS = {"single_mode_chara_id", "card_id", "chara_grade", "race_program_id", "reserve_race_program_id", "turn", "start_time", "succession_trained_chara_id_1", "succession_trained_chara_id_2"}
 
+CMD_MAPPING = {
+    101: ("speed", 1),
+    601: ("speed", 1),
+    105: ("stamina", 2),
+    602: ("stamina", 2),
+    102: ("power", 3),
+    603: ("power", 3),
+    103: ("guts", 4),
+    604: ("guts", 4),
+    106: ("wit", 5),
+    605: ("wit", 5)
+}
+
+current_facilities_state = {
+    "speed": {"stat": 0, "sp": 0, "energy": 0},
+    "stamina": {"stat": 0, "sp": 0, "energy": 0},
+    "power": {"stat": 0, "sp": 0, "energy": 0},
+    "guts": {"stat": 0, "sp": 0, "energy": 0},
+    "wit": {"stat": 0, "sp": 0, "energy": 0}
+}
+
 state_lock = threading.Lock()
 current_event_state = {
     "event_name": None,
@@ -28,22 +49,49 @@ ui_queue = queue.Queue()
 def broadcast(data: dict):
     ui_queue.put(data)
 
-def build_mdb_cache():
-    cache = {}
+def build_mdb_caches():
+    story = {}
+    cond = {}
+    skill = {}
     if not os.path.exists(MDB_PATH):
-        return cache
+        return story, cond, skill
     try:
         conn = sqlite3.connect(MDB_PATH)
         cursor = conn.cursor()
         cursor.execute('SELECT "index", text FROM text_data WHERE category=181')
         for idx, text in cursor.fetchall():
-            cache[idx] = text
+            story[idx] = text
+        cursor.execute('SELECT "index", text FROM text_data WHERE category=142')
+        for idx, text in cursor.fetchall():
+            cond[idx] = text
+        cursor.execute('SELECT "index", text FROM text_data WHERE category=47')
+        skill_names = {idx: text for idx, text in cursor.fetchall()}
+        cursor.execute('SELECT id, group_id FROM skill_data')
+        group_to_names = {}
+        for sid, group_id in cursor.fetchall():
+            name = skill_names.get(sid)
+            if name:
+                group_to_names.setdefault(group_id, []).append(name)
+        for group_id, names in group_to_names.items():
+            chosen = None
+            for n in names:
+                if '○' in n:
+                    chosen = n
+                    break
+            if not chosen:
+                for n in names:
+                    if '◎' not in n and '×' not in n:
+                        chosen = n
+                        break
+            if not chosen:
+                chosen = names[0]
+            skill[group_id] = chosen
         conn.close()
     except:
         pass
-    return cache
+    return story, cond, skill
 
-mdb_cache = build_mdb_cache()
+mdb_cache, condition_cache, skill_cache = build_mdb_caches()
 
 def load_outcomes():
     if not os.path.exists(OUTCOMES_FILE):
@@ -91,7 +139,6 @@ def calculate_diff(before, after):
         
     items = after.get("free_data_set", {}).get("item_effect_array", [])
     if items:
-        # just record the item_id for now
         gained_items = [item.get("item_id") for item in items if "item_id" in item]
         if gained_items:
             diff["gained_items"] = gained_items
@@ -116,32 +163,66 @@ def merge_diffs(existing, new_diff):
                 merged[k] = new_val
     return merged
 
-def format_diff(diff):
+def get_energy_outcome(diff):
     if not diff:
-        return "No stat changes"
-        
+        return ""
     parts = []
-    for k, v in diff.items():
-        if k == "gained_conditions":
-            parts.append(f"Gain Cond {v}")
-        elif k == "lost_conditions":
-            parts.append(f"Lose Cond {v}")
-        elif k == "gained_skill_hints":
-            if len(v) == 1:
-                lvl = list(v.values())[0]
-                parts.append(f"Skill hint ({lvl})")
-            else:
-                hints = [f"Skill hint {idx} ({lvl})" for idx, lvl in enumerate(v.values(), 1)]
-                parts.append(" | ".join(hints))
-        elif k == "gained_items":
-            parts.append(f"Gain Items {v}")
-        elif k == "motivation":
+    if "vital" in diff:
+        v = diff["vital"]
+        sign = "+" if v > 0 else ""
+        parts.append(f"Vital {sign}{v}")
+    if "max_vital" in diff:
+        v = diff["max_vital"]
+        sign = "+" if v > 0 else ""
+        parts.append(f"Max Vital {sign}{v}")
+    return ", ".join(parts)
+
+def get_stats_outcome(diff):
+    if not diff:
+        return ""
+    parts = []
+    mapping = {
+        "speed": "Speed",
+        "stamina": "Stamina",
+        "power": "Power",
+        "guts": "Guts",
+        "wiz": "Wit",
+        "motivation": "Mood",
+        "skill_point": "SP"
+    }
+    for k, name in mapping.items():
+        if k in diff:
+            v = diff[k]
             sign = "+" if v > 0 else ""
-            parts.append(f"Mood{sign}{v}")
-        else:
-            sign = "+" if v > 0 else ""
-            name = k.replace("_", " ").title()
-            parts.append(f"{name}{sign}{v}")
+            parts.append(f"{name} {sign}{v}")
+    return ", ".join(parts)
+
+def get_hints_outcome(diff):
+    if not diff or "gained_skill_hints" not in diff:
+        return ""
+    hints = diff["gained_skill_hints"]
+    parts = []
+    for hid, lvl in hints.items():
+        try:
+            val_int = int(hid)
+            name = skill_cache.get(val_int, hid)
+        except:
+            name = hid
+        parts.append(f"{name} ({lvl})")
+    return ", ".join(parts)
+
+def get_conditions_outcome(diff):
+    if not diff:
+        return ""
+    parts = []
+    if "gained_conditions" in diff:
+        for cid in diff["gained_conditions"]:
+            name = condition_cache.get(cid, str(cid))
+            parts.append(f"Gain [{name}]")
+    if "lost_conditions" in diff:
+        for cid in diff["lost_conditions"]:
+            name = condition_cache.get(cid, str(cid))
+            parts.append(f"Lose [{name}]")
     return ", ".join(parts)
 
 def decodeMsgpack(data, is_request=False):
@@ -161,7 +242,7 @@ def decodeMsgpack(data, is_request=False):
     return None
 
 def process_traffic(decoded, is_request):
-    global current_event_state, outcomes_db
+    global current_event_state, outcomes_db, current_facilities_state
     with state_lock:
         if is_request:
             req_payload = decoded.get("payload", decoded) if isinstance(decoded, dict) else {}
@@ -178,8 +259,60 @@ def process_traffic(decoded, is_request):
                 
                 chara_info_current = data_block.get("chara_info")
                 if chara_info_current and "vital" in chara_info_current and "max_vital" in chara_info_current:
-                    broadcast({"status": "energy_update", "vital": chara_info_current["vital"], "max_vital": chara_info_current["max_vital"]})
+                    turn = chara_info_current.get("turn", 0)
+                    broadcast({"status": "energy_update", "vital": chara_info_current["vital"], "max_vital": chara_info_current["max_vital"], "turn": turn})
                 
+                if chara_info_current and all(k in chara_info_current for k in ["speed", "stamina", "power", "guts", "wiz"]):
+                    broadcast({
+                        "status": "stats_update",
+                        "speed": chara_info_current["speed"],
+                        "max_speed": chara_info_current.get("max_speed", 1200),
+                        "stamina": chara_info_current["stamina"],
+                        "max_stamina": chara_info_current.get("max_stamina", 1200),
+                        "power": chara_info_current["power"],
+                        "max_power": chara_info_current.get("max_power", 1200),
+                        "guts": chara_info_current["guts"],
+                        "max_guts": chara_info_current.get("max_guts", 1200),
+                        "wiz": chara_info_current["wiz"],
+                        "max_wiz": chara_info_current.get("max_wiz", 1200)
+                    })
+
+                command_arr = []
+                if "home_info" in data_block and isinstance(data_block["home_info"], dict):
+                    command_arr.extend(data_block["home_info"].get("command_info_array", []))
+                if "free_data_set" in data_block and isinstance(data_block["free_data_set"], dict):
+                    command_arr.extend(data_block["free_data_set"].get("command_info_array", []))
+                if "command_info_array" in data_block and isinstance(data_block["command_info_array"], list):
+                    command_arr.extend(data_block["command_info_array"])
+                
+                has_fac_updates = False
+                for cmd in command_arr:
+                    if not isinstance(cmd, dict):
+                        continue
+                    cmd_id = cmd.get("command_id")
+                    if cmd_id in CMD_MAPPING:
+                        inc_dec = cmd.get("params_inc_dec_info_array", [])
+                        if inc_dec:
+                            stat_name, primary_target = CMD_MAPPING[cmd_id]
+                            stat_val = 0
+                            sp_val = 0
+                            energy_val = 0
+                            for item in inc_dec:
+                                if not isinstance(item, dict):
+                                    continue
+                                t_type = item.get("target_type")
+                                val = item.get("value", 0)
+                                if t_type == primary_target:
+                                    stat_val = val
+                                elif t_type == 30:
+                                    sp_val = val
+                                elif t_type == 10:
+                                    energy_val = val
+                            current_facilities_state[stat_name] = {"stat": stat_val, "sp": sp_val, "energy": energy_val}
+                            has_fac_updates = True
+                if has_fac_updates:
+                    broadcast({"status": "facilities_update", "facilities": current_facilities_state})
+
                 if "unchecked_event_array" in data_block:
                     unchecked_arr = data_block.get("unchecked_event_array", [])
                     
@@ -203,7 +336,7 @@ def process_traffic(decoded, is_request):
                         
                         current_event_state = {"event_name": None, "choice_map": {}, "chara_info_before": None, "pending_selected_choice_num": None, "pending_select_index": None}
                         broadcast({"status": "waiting"})
-
+ 
                     if unchecked_arr and len(unchecked_arr) > 0:
                         event_info = unchecked_arr[0]
                         story_id = event_info.get("story_id")
@@ -222,9 +355,9 @@ def process_traffic(decoded, is_request):
                             
                             outcome_diff = db_entry.get(cnum_str, {}).get(idx_str)
                             if outcome_diff is not None:
-                                display_choices.append({"slot": ui_slot + 1, "index": select_index, "status": "mapped", "outcome": format_diff(outcome_diff)})
+                                display_choices.append({"slot": ui_slot + 1, "index": select_index, "status": "mapped", "diff": outcome_diff})
                             else:
-                                display_choices.append({"slot": ui_slot + 1, "index": select_index, "status": "unmapped", "outcome": "Not mapped"})
+                                display_choices.append({"slot": ui_slot + 1, "index": select_index, "status": "unmapped", "diff": None})
                         
                         broadcast({"status": "event", "event_name": event_name, "choices": display_choices})
 
@@ -328,29 +461,161 @@ def start_frida(ui):
 class Dumpy(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Lil dumpy")
-        self.geometry("450x250")
+        self.overrideredirect(True)
+        self.geometry("850x450")
         self.configure(bg="#000000")
         
+        try:
+            import ctypes
+            hwnd = self.winfo_id()
+            parent = ctypes.windll.user32.GetParent(hwnd)
+            if parent:
+                style = ctypes.windll.user32.GetWindowLongW(parent, -20)
+                style = style & ~0x00000080
+                style = style | 0x00040000
+                ctypes.windll.user32.SetWindowLongW(parent, -20, style)
+                ctypes.windll.user32.SetWindowPos(parent, 0, 0, 0, 0, 0, 0x0027)
+        except:
+            pass
+            
         self.aot = False
-        self.last_html = "WAITING FOR EVENT..."
+        self.drag_x = 0
+        self.drag_y = 0
         
-        self.warn_lbl = tk.Label(self, text="Order not guaranteed infer order from results", fg="#ff9800", bg="#000000", font=("Consolas", 8))
-        self.warn_lbl.pack(anchor="w", padx=10, pady=(10, 0))
+        self.title_bar = tk.Frame(self, bg="#1a1a1a", height=28)
+        self.title_bar.pack(fill="x", side="top")
+        self.title_bar.pack_propagate(False)
+        
+        title_lbl = tk.Label(self.title_bar, text=" Lil dumpy", fg="#aaaaaa", bg="#1a1a1a", font=("Consolas", 9, "bold"))
+        title_lbl.pack(side="left", padx=5)
+        
+        btn_close = tk.Button(self.title_bar, text="✕", command=self.destroy, bg="#1a1a1a", fg="#aaaaaa", activebackground="#ff5f56", activeforeground="white", bd=0, font=("Consolas", 10), width=3)
+        btn_close.pack(side="right")
+        
+        btn_min = tk.Button(self.title_bar, text="—", command=self.iconify, bg="#1a1a1a", fg="#aaaaaa", activebackground="#333333", activeforeground="white", bd=0, font=("Consolas", 10), width=3)
+        btn_min.pack(side="right")
+        
+        def on_enter_close(e):
+            btn_close.configure(bg="#ff5f56", fg="white")
+        def on_leave_close(e):
+            btn_close.configure(bg="#1a1a1a", fg="#aaaaaa")
+        btn_close.bind("<Enter>", on_enter_close)
+        btn_close.bind("<Leave>", on_leave_close)
+
+        def on_enter_min(e):
+            btn_min.configure(bg="#333333", fg="white")
+        def on_leave_min(e):
+            btn_min.configure(bg="#1a1a1a", fg="#aaaaaa")
+        btn_min.bind("<Enter>", on_enter_min)
+        btn_min.bind("<Leave>", on_leave_min)
+        
+        def start_move(event):
+            self.drag_x = event.x
+            self.drag_y = event.y
+        def do_move(event):
+            x = self.winfo_x() + (event.x - self.drag_x)
+            y = self.winfo_y() + (event.y - self.drag_y)
+            self.geometry(f"+{x}+{y}")
+            
+        self.title_bar.bind("<Button-1>", start_move)
+        self.title_bar.bind("<B1-Motion>", do_move)
+        title_lbl.bind("<Button-1>", start_move)
+        title_lbl.bind("<B1-Motion>", do_move)
+        
+        self.header_frame = tk.Frame(self, bg="#000000")
+        self.header_frame.pack(fill="x", padx=10, pady=(10, 0))
+        
+        self.left_frame = tk.Frame(self.header_frame, bg="#000000")
+        self.left_frame.pack(side="left", anchor="w")
+        
+        self.warn_lbl = tk.Label(self.left_frame, text="Order not guaranteed infer order from results", fg="#ff9800", bg="#000000", font=("Consolas", 8))
+        self.warn_lbl.pack(anchor="w", padx=0, pady=0)
         
         self.energy_var = tk.StringVar()
         self.energy_var.set("Energy: ?/?")
-        self.energy_lbl = tk.Label(self, textvariable=self.energy_var, fg="#4caf50", bg="#000000", font=("Consolas", 10, "bold"))
-        self.energy_lbl.pack(anchor="w", padx=10, pady=0)
+        self.energy_lbl = tk.Label(self.left_frame, textvariable=self.energy_var, fg="#4caf50", bg="#000000", font=("Consolas", 10, "bold"))
+        self.energy_lbl.pack(anchor="w", padx=0, pady=0)
         
-        self.text_var = tk.StringVar()
-        self.text_var.set(self.last_html)
-        self.event_lbl = tk.Label(self, textvariable=self.text_var, fg="white", bg="#000000", font=("Consolas", 10), justify="left")
-        self.event_lbl.pack(anchor="w", padx=10, pady=10)
+        self.info_lbl = tk.Label(self.left_frame, text="Turn: ? | Next Summer: ?", fg="white", bg="#000000", font=("Consolas", 10))
+        self.info_lbl.pack(anchor="w", padx=0, pady=0)
         
-        self.btn_aot = tk.Button(self, text="ALWAYS ON TOP: OFF", command=self.toggle_aot, bg="#222222", fg="white", font=("Consolas", 9), relief="solid", bd=1)
-        self.btn_aot.pack(anchor="w", padx=10, pady=10)
+        self.btn_aot = tk.Button(self.header_frame, text="ALWAYS ON TOP: OFF", command=self.toggle_aot, bg="#222222", fg="white", font=("Consolas", 9), relief="solid", bd=1)
+        self.btn_aot.pack(side="right", anchor="e", padx=0, pady=0)
         
+        self.event_lbl = tk.Label(self, text="WAITING FOR EVENT...", fg="white", bg="#000000", font=("Consolas", 10, "bold"))
+        self.event_lbl.pack(anchor="w", padx=10, pady=(5, 5))
+        
+        self.choices_frame = tk.Frame(self, bg="#000000")
+        self.choices_frame.pack(fill="both", expand=True, padx=10, pady=(5, 5))
+        self.choices_frame.grid_rowconfigure(0, weight=1)
+        
+        self.fac_frame = tk.Frame(self, bg="#000000")
+        self.fac_frame.pack(fill="x", padx=10, pady=(5, 10))
+        for i in range(5):
+            self.fac_frame.columnconfigure(i, weight=1)
+            
+        stats_info = [
+            ("Speed", "speed", "max_speed", "#ff7675"),
+            ("Stamina", "stamina", "max_stamina", "#74b9ff"),
+            ("Power", "power", "max_power", "#ffeaa7"),
+            ("Guts", "guts", "max_guts", "#a29bfe"),
+            ("Wit", "wiz", "max_wiz", "#55efc4")
+        ]
+        
+        self.fac_widgets = {}
+        for idx, (display_name, key, max_key, color) in enumerate(stats_info):
+            col_frame = tk.Frame(self.fac_frame, bg="#111111", highlightbackground="#333333", highlightthickness=1, bd=0)
+            col_frame.grid(row=0, column=idx, padx=5, pady=2, sticky="nsew")
+            
+            hdr_lbl = tk.Label(col_frame, text=f"{display_name}: ? to cap", fg=color, bg="#111111", font=("Consolas", 9, "bold"))
+            hdr_lbl.pack(anchor="w", padx=5, pady=(2, 0))
+            
+            stat_lbl = tk.Label(col_frame, text="Stat: +0", fg="white", bg="#111111", font=("Consolas", 9))
+            stat_lbl.pack(anchor="w", padx=5, pady=0)
+            
+            sp_lbl = tk.Label(col_frame, text="SP: +0", fg="white", bg="#111111", font=("Consolas", 9))
+            sp_lbl.pack(anchor="w", padx=5, pady=0)
+            
+            energy_lbl = tk.Label(col_frame, text="Energy: +0", fg="white", bg="#111111", font=("Consolas", 9))
+            energy_lbl.pack(anchor="w", padx=5, pady=(0, 2))
+            
+            self.fac_widgets[key] = {
+                "hdr": hdr_lbl,
+                "stat": stat_lbl,
+                "sp": sp_lbl,
+                "energy": energy_lbl,
+                "display_name": display_name,
+                "max_key": max_key
+            }
+            
+        self.choice_cards = []
+        for i in range(6):
+            card_frame = tk.Frame(self.choices_frame, bg="#111111", highlightbackground="#333333", highlightthickness=1, bd=0)
+            
+            header_lbl = tk.Label(card_frame, text=f"Choice {i+1}", fg="#ffffff", bg="#222222", font=("Consolas", 9, "bold"), anchor="center")
+            header_lbl.pack(fill="x", side="top")
+            
+            energy_lbl = tk.Label(card_frame, text="", fg="#55efc4", bg="#111111", font=("Consolas", 8), justify="left", anchor="w", wraplength=180)
+            energy_lbl.pack(fill="x", padx=5, pady=2)
+            
+            stats_lbl = tk.Label(card_frame, text="", fg="#ffeaa7", bg="#111111", font=("Consolas", 8), justify="left", anchor="w", wraplength=180)
+            stats_lbl.pack(fill="x", padx=5, pady=2)
+            
+            hints_lbl = tk.Label(card_frame, text="", fg="#ff7675", bg="#111111", font=("Consolas", 8), justify="left", anchor="w", wraplength=180)
+            hints_lbl.pack(fill="x", padx=5, pady=2)
+            
+            conds_lbl = tk.Label(card_frame, text="", fg="#ffffff", bg="#111111", font=("Consolas", 8), justify="left", anchor="w", wraplength=180)
+            conds_lbl.pack(fill="x", padx=5, pady=2)
+            
+            self.choice_cards.append({
+                "frame": card_frame,
+                "header": header_lbl,
+                "energy": energy_lbl,
+                "stats": stats_lbl,
+                "hints": hints_lbl,
+                "conds": conds_lbl
+            })
+            
         self.after(100, self.poll_queue)
 
     def toggle_aot(self):
@@ -358,23 +623,83 @@ class Dumpy(tk.Tk):
         self.attributes('-topmost', self.aot)
         self.btn_aot.configure(text=f"ALWAYS ON TOP: {'ON' if self.aot else 'OFF'}")
 
+    def format_turn_info(self, turn):
+        if turn < 37:
+            camp = f"{37 - turn}t"
+        elif 37 <= turn <= 40:
+            camp = "Active!"
+        elif turn < 61:
+            camp = f"{61 - turn}t"
+        elif 61 <= turn <= 64:
+            camp = "Active!"
+        else:
+            camp = "None"
+        
+        return f"Turn: {turn} | Next Summer: {camp}"
+
     def poll_queue(self):
         while not ui_queue.empty():
             msg = ui_queue.get()
             if msg["status"] == "energy_update":
                 self.energy_var.set(f"Energy: {msg['vital']}/{msg['max_vital']}")
+                turn = msg.get("turn", 0)
+                self.info_lbl.configure(text=self.format_turn_info(turn))
+            elif msg["status"] == "stats_update":
+                for key, widget in self.fac_widgets.items():
+                    current_val = msg.get(key, 0)
+                    max_key = widget["max_key"]
+                    max_cap = msg.get(max_key, 1200)
+                    rem = max(0, max_cap - current_val)
+                    widget["hdr"].configure(text=f"{widget['display_name']}: {rem} to cap")
+            elif msg["status"] == "facilities_update":
+                fac = msg.get("facilities", {})
+                for key, widget in self.fac_widgets.items():
+                    fac_key = "wit" if key == "wiz" else key
+                    data = fac.get(fac_key, {"stat": 0, "sp": 0, "energy": 0})
+                    widget["stat"].configure(text=f"Stat: {data['stat']:+}")
+                    widget["sp"].configure(text=f"SP: {data['sp']:+}")
+                    widget["energy"].configure(text=f"Energy: {data['energy']:+}")
             elif msg["status"] == "waiting":
-                self.text_var.set(self.last_html + "\n\n[WAITING...]")
+                self.event_lbl.configure(text="[WAITING...]")
+                for card in self.choice_cards:
+                    card["frame"].grid_forget()
+                self.geometry("850x450")
             elif msg["status"] == "event":
-                h = f"> {msg['event_name']}\n"
-                if len(msg.get("choices", [])) <= 1:
-                    h += "event only has 1 choice\n"
-                else:
-                    for c in msg["choices"]:
-                        out = c["outcome"] if c["status"] == "mapped" else "Not mapped"
-                        h += f"Choice {c['slot']} [Idx {c['index']}] {out}\n"
-                self.last_html = h.strip()
-                self.text_var.set(self.last_html)
+                self.event_lbl.configure(text=f"Event: {msg['event_name']}")
+                for card in self.choice_cards:
+                    card["frame"].grid_forget()
+                choices = msg.get("choices", [])
+                num_choices = len(choices)
+                for i in range(6):
+                    if i < num_choices:
+                        self.choices_frame.columnconfigure(i, weight=1)
+                    else:
+                        self.choices_frame.columnconfigure(i, weight=0)
+                width = max(850, num_choices * 180 + 30)
+                self.geometry(f"{width}x450")
+                for c in choices:
+                    slot = c["slot"]
+                    idx = c["index"]
+                    card_idx = slot - 1
+                    if 0 <= card_idx < len(self.choice_cards):
+                        card = self.choice_cards[card_idx]
+                        card["frame"].grid(row=0, column=card_idx, padx=5, pady=5, sticky="nsew")
+                        card["header"].configure(text=f"Choice {slot} (Idx {idx})")
+                        if c["status"] == "mapped" and c.get("diff") is not None:
+                            diff = c["diff"]
+                            e_out = get_energy_outcome(diff)
+                            s_out = get_stats_outcome(diff)
+                            h_out = get_hints_outcome(diff)
+                            c_out = get_conditions_outcome(diff)
+                            card["energy"].configure(text=e_out if e_out else "")
+                            card["stats"].configure(text=s_out if s_out else "")
+                            card["hints"].configure(text=h_out if h_out else "")
+                            card["conds"].configure(text=c_out if c_out else "")
+                        else:
+                            card["energy"].configure(text="Not mapped")
+                            card["stats"].configure(text="")
+                            card["hints"].configure(text="")
+                            card["conds"].configure(text="")
         self.after(100, self.poll_queue)
 
 if __name__ == "__main__":
