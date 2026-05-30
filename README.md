@@ -1,5 +1,8 @@
 # Umamusume event outcome predictor thingamajig   
-event results are sent to the client before the button is even clicked. this tool makes em visible.       
+Event results are sent to the client before the button is even clicked. this tool makes em visible by intercepting network traffic. Also shows other stuff like energy ig.
+
+<img width="857" height="461" alt="image" src="https://github.com/user-attachments/assets/5e776b45-20d7-467c-9e6b-e278b30c1a6f" /> 
+
 
 # Install
 ```bash
@@ -14,8 +17,6 @@ compares the before and after of all ur values so it might be inaccurate at firs
 it's take the most extreme as the database updates itself. for example -5 energy is gonna get overwritten by -20 and so on. (same goes for positives)    
 
 ^^^ also means that "a hint for growth" or any other event that gives variable stats/skills is gonna display "+ every stat/skill" after a while but u should be able to understand whats going on behind the scene.
-
-<img width="1810" height="1080" alt="image" src="https://github.com/user-attachments/assets/c668329e-176a-4002-857c-377b7101ec18" />    
 
 
 even without being mapped even idx usually means bad outcome apart from race and training fail events (and some edge cases but yeah)   
