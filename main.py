@@ -302,12 +302,12 @@ def process_traffic(decoded, is_request):
                                     continue
                                 t_type = item.get("target_type")
                                 val = item.get("value", 0)
-                                if t_type == primary_target:
-                                    stat_val = val
+                                if t_type in (1, 2, 3, 4, 5):
+                                    stat_val += val
                                 elif t_type == 30:
-                                    sp_val = val
+                                    sp_val += val
                                 elif t_type == 10:
-                                    energy_val = val
+                                    energy_val += val
                             current_facilities_state[stat_name] = {"stat": stat_val, "sp": sp_val, "energy": energy_val}
                             has_fac_updates = True
                 if has_fac_updates:

@@ -41,12 +41,14 @@
         "speed": 10,
         "stamina": 10,
         "power": 10,
-        "wiz": 10
+        "wiz": 10,
+        "guts": 10
       }
     },
     "0": {
       "1": {
-        "stamina": 10
+        "stamina": 10,
+        "power": 10
       }
     }
   },
@@ -55,14 +57,15 @@
       "3": {
         "stamina": 16,
         "wiz": 18,
-        "guts": 16,
+        "guts": 19,
         "vital": -25,
         "skill_point": 76,
         "playing_state": -4,
-        "power": 21
+        "power": 21,
+        "speed": 21
       },
       "1": {
-        "stamina": 16,
+        "stamina": 19,
         "vital": -10,
         "skill_point": 76,
         "wiz": 19,
@@ -79,10 +82,15 @@
       "2": {
         "guts": 19,
         "vital": -10,
-        "skill_point": 67,
+        "skill_point": 75,
         "stamina": 16,
-        "speed": 13,
-        "wiz": 4
+        "speed": 19,
+        "wiz": 4,
+        "power": 21,
+        "playing_state": -4,
+        "gained_skill_hints": {
+          "20060": 1
+        }
       },
       "4": {
         "speed": 4,
@@ -104,14 +112,21 @@
         "skill_point": 76,
         "playing_state": -4,
         "gained_skill_hints": {
-          "20026": 1
+          "20026": 1,
+          "20001": 1,
+          "20003": 1,
+          "20073": 1,
+          "20029": 1
         },
         "guts": 21,
         "wiz": 21
       },
       "1": {
         "wiz": 12,
-        "skill_point": 40
+        "skill_point": 56,
+        "speed": 16,
+        "stamina": 16,
+        "power": 12
       }
     }
   },
@@ -127,7 +142,8 @@
         "lost_conditions": [
           10
         ],
-        "stamina": -10
+        "stamina": -10,
+        "speed": -10
       },
       "2": {
         "playing_state": -4,
@@ -141,7 +157,9 @@
         "stamina": -5,
         "motivation": -1,
         "playing_state": -4,
-        "guts": -5
+        "guts": -5,
+        "power": -5,
+        "speed": -5
       }
     }
   },
@@ -205,7 +223,10 @@
       "1": {
         "speed": 5,
         "vital": -5,
-        "wiz": 5
+        "wiz": 5,
+        "guts": 5,
+        "playing_state": -4,
+        "power": 5
       }
     },
     "1": {
@@ -393,6 +414,12 @@
           "20159": 1
         }
       }
+    },
+    "0": {
+      "1": {
+        "motivation": 1,
+        "playing_state": -4
+      }
     }
   },
   "Taiki and Pearl's Language Exchange": {
@@ -410,6 +437,12 @@
         "speed": 5,
         "stamina": 5,
         "power": 5
+      }
+    },
+    "0": {
+      "1": {
+        "wiz": 5,
+        "skill_point": 15
       }
     }
   },
@@ -433,6 +466,17 @@
         "power": 10,
         "vital": -35,
         "skill_point": 64,
+        "playing_state": -4
+      },
+      "3": {
+        "wiz": 6,
+        "vital": -35,
+        "skill_point": 32
+      },
+      "2": {
+        "speed": 9,
+        "vital": -15,
+        "skill_point": 40,
         "playing_state": -4
       }
     }
@@ -458,6 +502,15 @@
     "1": {
       "1": {
         "vital": 5
+      }
+    },
+    "0": {
+      "1": {
+        "speed": 7,
+        "stamina": 7,
+        "power": 7,
+        "wiz": 7,
+        "guts": 7
       }
     }
   },
@@ -518,6 +571,403 @@
     "0": {
       "1": {
         "wiz": 10
+      }
+    }
+  },
+  "Tracen Karuta Queen": {
+    "0": {
+      "1": {
+        "speed": 10,
+        "wiz": 5
+      }
+    },
+    "1": {
+      "1": {
+        "gained_skill_hints": {
+          "20028": 1
+        }
+      }
+    }
+  },
+  "Some Very Green Friends": {
+    "1": {
+      "1": {
+        "motivation": -1,
+        "gained_skill_hints": {
+          "20027": 5
+        }
+      }
+    },
+    "0": {
+      "1": {
+        "speed": 5,
+        "skill_point": 10,
+        "gained_skill_hints": {
+          "20156": 1
+        }
+      }
+    }
+  },
+  "Everlasting Game": {
+    "1": {
+      "1": {
+        "speed": 10,
+        "skill_point": 15
+      }
+    },
+    "0": {
+      "1": {
+        "gained_skill_hints": {
+          "20144": 2
+        }
+      }
+    }
+  },
+  "Beauteaful": {
+    "0": {
+      "1": {
+        "wiz": 5,
+        "skill_point": 15
+      }
+    },
+    "1": {
+      "1": {
+        "speed": 10
+      }
+    }
+  },
+  "The Perfect Combo": {
+    "0": {
+      "1": {
+        "power": 6,
+        "guts": 6,
+        "playing_state": -4
+      }
+    }
+  },
+  "A Warrior's Spirit": {
+    "0": {
+      "1": {
+        "power": 10,
+        "motivation": 1
+      }
+    },
+    "1": {
+      "1": {
+        "vital": 15
+      }
+    }
+  },
+  "A Grandkid Get-Together": {
+    "0": {
+      "1": {
+        "stamina": 6,
+        "wiz": 6,
+        "playing_state": -4
+      }
+    }
+  },
+  "Expressing My Feelings to Maruzen": {
+    "0": {
+      "1": {
+        "skill_point": 24,
+        "playing_state": -4
+      }
+    }
+  },
+  "Defeat": {
+    "1": {
+      "2": {
+        "wiz": 6,
+        "vital": -28,
+        "skill_point": 24,
+        "playing_state": -4
+      }
+    }
+  },
+  "Conquering the Crowds": {
+    "0": {
+      "1": {
+        "power": 5,
+        "skill_point": 15
+      }
+    }
+  },
+  "Night of Ill Portent": {
+    "0": {
+      "1": {
+        "stamina": 10,
+        "guts": 5,
+        "skill_point": 10
+      }
+    }
+  },
+  "Errands Have Perks": {
+    "1": {
+      "1": {
+        "wiz": 5,
+        "vital": 5
+      }
+    },
+    "0": {
+      "1": {
+        "speed": 5,
+        "stamina": 5
+      }
+    }
+  },
+  "Mission: Big Surprise!": {
+    "0": {
+      "1": {
+        "motivation": 1,
+        "playing_state": -4
+      }
+    }
+  },
+  "An Unusual Addition": {
+    "0": {
+      "1": {
+        "power": 6,
+        "wiz": 6,
+        "playing_state": -4
+      }
+    }
+  },
+  "To Maintain My Weight": {
+    "1": {
+      "1": {
+        "stamina": 5,
+        "max_vital": 4
+      }
+    }
+  },
+  "Fear the Fearless": {
+    "0": {
+      "1": {
+        "stamina": 6,
+        "guts": 6,
+        "playing_state": -4
+      }
+    }
+  },
+  "Miracle ☆ Escape!": {
+    "0": {
+      "1": {
+        "speed": 5,
+        "vital": 10
+      }
+    }
+  },
+  "Whimsical Encounter": {
+    "0": {
+      "1": {
+        "wiz": 10,
+        "guts": 10
+      }
+    }
+  },
+  "A Family (?) Shopping Trip!": {
+    "1": {
+      "2": {
+        "playing_state": -4,
+        "gained_skill_hints": {
+          "20074": 1
+        }
+      }
+    }
+  },
+  "Together for Tea": {
+    "1": {
+      "1": {
+        "vital": 30,
+        "skill_point": 10
+      }
+    }
+  },
+  "Premeditated Mischief": {
+    "1": {
+      "1": {
+        "motivation": -1,
+        "gained_skill_hints": {
+          "20164": 1
+        }
+      }
+    }
+  },
+  "The Little Marvelous Match Girl": {
+    "1": {
+      "2": {
+        "playing_state": -4,
+        "gained_skill_hints": {
+          "20135": 1
+        }
+      }
+    }
+  },
+  "A New Allure": {
+    "1": {
+      "1": {
+        "power": 10
+      }
+    }
+  },
+  "Worldwide Windy": {
+    "0": {
+      "1": {
+        "speed": 6,
+        "guts": 6,
+        "playing_state": -4
+      }
+    }
+  },
+  "The Princess in Pajamas": {
+    "1": {
+      "1": {
+        "stamina": 10,
+        "playing_state": -4
+      }
+    }
+  },
+  "Fantastic Voyeur": {
+    "1": {
+      "1": {
+        "wiz": 10
+      }
+    }
+  },
+  "Bring Me Your Finest": {
+    "0": {
+      "1": {
+        "speed": 10,
+        "skill_point": 15
+      }
+    }
+  },
+  "Battle of Kings: The Great Ramen War": {
+    "1": {
+      "2": {
+        "speed": -5,
+        "power": 5,
+        "vital": 30,
+        "skill_point": 10,
+        "gained_conditions": [
+          4
+        ]
+      }
+    }
+  },
+  "Flustered Afternoon Tea!": {
+    "0": {
+      "1": {
+        "vital": 10,
+        "motivation": 1
+      }
+    }
+  },
+  "Unexpected Side": {
+    "0": {
+      "1": {
+        "stamina": 13,
+        "vital": 19,
+        "gained_skill_hints": {
+          "20046": 3
+        }
+      }
+    }
+  },
+  "The Kashimoto Art of Tidying Up": {
+    "1": {
+      "1": {
+        "guts": 20
+      }
+    }
+  },
+  "Running on Full": {
+    "0": {
+      "1": {
+        "vital": 10,
+        "skill_point": 15
+      }
+    }
+  },
+  "Field Workout": {
+    "1": {
+      "1": {
+        "power": 10
+      }
+    }
+  },
+  "Bottomless Pit": {
+    "1": {
+      "1": {
+        "vital": 30,
+        "skill_point": 10
+      }
+    }
+  },
+  "The Strongest, Mightiest Cinderella!": {
+    "1": {
+      "2": {
+        "playing_state": -4,
+        "gained_skill_hints": {
+          "20045": 1
+        }
+      }
+    }
+  },
+  "Picture Their Joy": {
+    "0": {
+      "1": {
+        "stamina": 13,
+        "guts": 6,
+        "vital": 26,
+        "motivation": 1
+      }
+    }
+  },
+  "Vega and Spica": {
+    "0": {
+      "1": {
+        "speed": 6,
+        "wiz": 6,
+        "playing_state": -4
+      }
+    }
+  },
+  "Lost Umamusume": {
+    "0": {
+      "1": {
+        "guts": 10
+      }
+    }
+  },
+  "Under the Same Umbrella": {
+    "0": {
+      "1": {
+        "speed": 6,
+        "guts": 6,
+        "playing_state": -4
+      }
+    }
+  },
+  "A Grown-Up Present": {
+    "1": {
+      "1": {
+        "speed": 10,
+        "wiz": 20,
+        "gained_skill_hints": {
+          "20020": 2
+        }
+      }
+    }
+  },
+  "Tamamo's Struggle at the Arcade": {
+    "1": {
+      "2": {
+        "playing_state": -4,
+        "gained_skill_hints": {
+          "20107": 1
+        }
       }
     }
   }
