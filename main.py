@@ -478,7 +478,8 @@ class Dumpy(tk.Tk):
         except:
             pass
             
-        self.aot = False
+        self.aot = True
+        self.attributes('-topmost', True)
         self.drag_x = 0
         self.drag_y = 0
         
@@ -539,7 +540,7 @@ class Dumpy(tk.Tk):
         self.info_lbl = tk.Label(self.left_frame, text="Turn: ? | Next Summer: ?", fg="white", bg="#000000", font=("Consolas", 10))
         self.info_lbl.pack(anchor="w", padx=0, pady=0)
         
-        self.btn_aot = tk.Button(self.header_frame, text="ALWAYS ON TOP: OFF", command=self.toggle_aot, bg="#222222", fg="white", font=("Consolas", 9), relief="solid", bd=1)
+        self.btn_aot = tk.Button(self.header_frame, text="ALWAYS ON TOP: ON", command=self.toggle_aot, bg="#222222", fg="white", font=("Consolas", 9), relief="solid", bd=1)
         self.btn_aot.pack(side="right", anchor="e", padx=0, pady=0)
         
         self.event_lbl = tk.Label(self, text="WAITING FOR EVENT...", fg="white", bg="#000000", font=("Consolas", 10, "bold"))
